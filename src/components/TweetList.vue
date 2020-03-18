@@ -1,6 +1,6 @@
 <template>
-    <div class="tweet-container cards">
-        <Tweet class="" v-for="(tweet,index) in tweets" :key="index" :tweetData="tweet"/>
+    <div class="tweet-container" :class="[this.isCardsStyle? 'cards':'lists']">
+        <Tweet  v-for="(tweet,index) in tweets" :key="index" :tweetData="tweet"/>
     </div>
 </template>
 
@@ -10,6 +10,19 @@ import Tweet from './Tweet.vue'
         name: "TweetList",
         components: {
             Tweet,
+        },
+        mounted(){
+            this.$root.$on("toggle",this.toggleView);
+        },
+        methods: {
+            toggleView(){
+                console.log("clicked "+ this.isCardsStyle);
+                if(this.isCardsStyle){
+                    this.isCardsStyle =false;
+                } else {
+                    this.isCardsStyle =true;
+                }
+            },
         },
         data(){
             return {
@@ -34,7 +47,12 @@ import Tweet from './Tweet.vue'
                         author: "John",
                         content: "Something interesting"
                     },
+                    {
+                        author: "John",
+                        content: "Something interesting"
+                    },
                 ],
+               isCardsStyle: true,
             };
         },
     }    
@@ -52,7 +70,7 @@ import Tweet from './Tweet.vue'
         grid-template-columns:repeat( auto-fill, minmax(250px, 1fr) );
         text-overflow: ellipsis;
     }
-    .list{
+    .lists{
         grid-template-columns: 1fr;
     }
 </style>
